@@ -1,2 +1,10 @@
-// src/services/bookService.js
-// You can add specific logic related to the book service here if needed.
+const { fetchFromApi } = require("../../helpers/httpHelper");
+
+const bookService = {
+  getBooks: async (categoryId, size, page) => {
+    const params = { categoryId, size, page };
+    return await fetchFromApi("fee-assessment-books", params);
+  },
+};
+
+module.exports = bookService;

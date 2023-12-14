@@ -1,5 +1,4 @@
-// src/controllers/bookController.js
-const { fetchFromApi } = require("../../helpers/httpHelper");
+const apiService = require("../services/bookService");
 const { sendResponse } = require("../../helpers/httpResponseHelper");
 const logger = require("../../helpers/logger");
 
@@ -13,8 +12,7 @@ const getBooks = async (req, res) => {
     size = size || "5";
     page = page || "1";
 
-    const params = { categoryId, size, page };
-    const cacheKey = JSON.stringify(params);
+    const cacheKey = JSON.stringify({ categoryId, size, page });
 
     // Check if the response is in the cache
     if (cache.has(cacheKey)) {
@@ -24,8 +22,8 @@ const getBooks = async (req, res) => {
       return;
     }
 
-    // Make API request using fetchFromApi
-    const { status, data } = await fetchFromApi("fee-assessment-books", params);
+    // Make API request using apiService
+    const { status, data } = await apiService.getBooks(categoryId, size, page);
 
     // Check if the API response is successful
     if (status === 200) {
